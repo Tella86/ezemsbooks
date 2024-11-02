@@ -1,7 +1,9 @@
 <?php
 session_start();
+require 'includes/db.php';
+include 'includes/get_dashboard_data.php';
 
-// Sample role determination - you could replace this with actual session data or a database lookup
+// Sample role determination - replace this with actual session data or a database lookup
 $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
 
 ?>
@@ -13,7 +15,7 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
-    <script src="assts/js/theme.js"></script>
+    <script src="assets/js/theme.js"></script>
 </head>
 <body>
 
@@ -93,6 +95,45 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
                 <div class="col-md-4">
                     <div class="card bg-info text-white mb-4">
                         <div class="card-body">Upcoming Deadlines</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional KPIs -->
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card bg-info text-white">
+                        <div class="card-body">
+                            <h5>Total Invoices</h5>
+                            <h2 id="totalInvoices"><?php echo $totalInvoices; ?></h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body">
+                            <h5>Total Expenses</h5>
+                            <h2>Ksh.<?= number_format($totalExpenses, 2) ?></h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row text-center mt-4">
+                <div class="col-md-4">
+                    <div class="card bg-success text-white">
+                        <div class="card-body">
+                            <h5>Paid</h5>
+                            <h2>Ksh.<?= number_format($totalPaid, 2) ?></h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-danger text-white">
+                        <div class="card-body">
+                            <h5>Unpaid</h5>
+                            <h2>Ksh.<?= number_format($totalUnpaid, 2) ?></h2>
+                        </div>
                     </div>
                 </div>
             </div>

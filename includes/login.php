@@ -3,18 +3,9 @@ session_start();
 require 'db.php';
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+    header("Location: ../auth/login.php");
     exit();
 }
-
-// if ($_SESSION['role'] !== 'admin') {
-//     echo "Access denied. Admins only.";
-//     exit();
-// }
-
-// Admin-only content goes here
-echo "Welcome, admin!";
-
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -35,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['role'] = $user['role'];
 
         // Redirect to the dashboard or another protected page
-        header("Location: ../dashboard.php");
+        header("Location: ../admin_dahsboard.php");
     } else {
         echo "Invalid username or password.";
     }
