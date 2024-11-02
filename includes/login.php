@@ -7,10 +7,10 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-if ($_SESSION['role'] !== 'admin') {
-    echo "Access denied. Admins only.";
-    exit();
-}
+// if ($_SESSION['role'] !== 'admin') {
+//     echo "Access denied. Admins only.";
+//     exit();
+// }
 
 // Admin-only content goes here
 echo "Welcome, admin!";
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['role'] = $user['role'];
 
         // Redirect to the dashboard or another protected page
-        header("Location: dashboard.php");
+        header("Location: ../dashboard.php");
     } else {
         echo "Invalid username or password.";
     }

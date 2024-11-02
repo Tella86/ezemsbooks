@@ -2,34 +2,28 @@
 // db.php - Your database connection
 require 'db.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $password = password_hash($_POST['password'], PASSWORD_BCRYPT); // Hash the password
-    $role = 'user'; // Default role
+// Process form submission
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $conn->real_escape_string($_POST['username']);
+    $email = $conn->real_escape_string($_POST['email']);
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $role = $conn->real_escape_string($_POST['role']);
 
-    // Check if username or email already exists
-    $checkUser = $conn->prepare("SELECT * FROM users WHERE username = ? OR email = ?");
-    $checkUser->bind_param("ss", $username, $email);
-    $checkUser->execute();
-    $result = $checkUser->get_result();
+    // Check for duplicate username or email
+    $checkQuery = "SELECT * FROM users WHERE username='$username' OR email='$email'";
+    $result = $conn->query($checkQuery);
 
     if ($result->num_rows > 0) {
-        echo "Username or email already taken.";
+        echo "<script>alert('Username or Email already exists!'); window.history.back();</script>";
     } else {
-        // Insert new user
-        $stmt = $conn->prepare("INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss", $username, $email, $password, $role);
-
-        if ($stmt->execute()) {
-            echo "Registration successful!";
-            header("Location: login.php");
+        // Insert the new user into the database
+        $insertQuery = "INSERT INTO users (username, email, password, role) VALUES ('$username', '$email', '$password', '$role')";
+        if ($conn->query($insertQuery) === TRUE) {
+            echo "<script>alert('Registration successful!'); window.location.href = '../dashboard.php';</script>";
         } else {
-            echo "Error: " . $stmt->error;
+            echo "Error: " . $insertQuery . "<br>" . $conn->error;
         }
-        $stmt->close();
     }
-    $checkUser->close();
-    $conn->close();
 }
-?>
+
+$conn->close();

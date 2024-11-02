@@ -1,21 +1,21 @@
 <?php
 session_start();
-require 'db.php';
-
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit();
-}
-
-if ($_SESSION['role'] !== 'admin') {
-    echo "Access denied. Admins only.";
-    exit();
-}
-
-// Admin-only content goes here
-echo "Welcome, admin!";
+require 'includes/db.php';
 include 'includes/get_dashboard_data.php';
+// Uncomment if you need to check user role and session status
+// if (!isset($_SESSION['user_id'])) {
+//     header("Location: auth/login.php");
+//     exit();
+// }
+// if ($_SESSION['role'] !== 'admin') {
+//     echo "Access denied. Admins only.";
+//     exit();
+// }
+
+echo "Welcome, admin!";
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,7 +31,7 @@ include 'includes/get_dashboard_data.php';
         
         <!-- KPIs Section -->
         <div class="row text-center mt-4">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card bg-primary text-white">
                     <div class="card-body">
                         <h5>Total Revenue</h5>
@@ -39,27 +39,38 @@ include 'includes/get_dashboard_data.php';
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card bg-success text-white">
-                    <div class="card-body">
-                        <h5>Total Expenses</h5>
-                        <h2 id="totalExpenses">$0</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card bg-warning text-white">
-                    <div class="card-body">
-                        <h5>Net Profit</h5>
-                        <h2 id="netProfit">$0</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card bg-info text-white">
                     <div class="card-body">
                         <h5>Total Invoices</h5>
-                        <h2 id="totalInvoices">0</h2>
+                        <h2 id="totalInvoices"><?php echo $totalInvoices; ?></h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <h5>Total Expenses</h5>
+                        <h2>$<?= number_format($totalExpenses, 2) ?></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row text-center mt-4">
+            <div class="col-md-6">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <h5>Paid</h5>
+                        <h2>$<?= number_format($totalPaid, 2) ?></h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card bg-danger text-white">
+                    <div class="card-body">
+                        <h5>Unpaid</h5>
+                        <h2>$<?= number_format($totalUnpaid, 2) ?></h2>
                     </div>
                 </div>
             </div>
@@ -79,8 +90,8 @@ include 'includes/get_dashboard_data.php';
         <div class="row mt-5">
             <div class="col-md-12">
                 <h3>Recent Transactions</h3>
-                <table class="table table-striped">
-                    <thead>
+                <table class="table table-striped table-bordered">
+                    <thead class="thead-dark">
                         <tr>
                             <th>Date</th>
                             <th>Description</th>

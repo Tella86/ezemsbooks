@@ -9,7 +9,7 @@
 <body>
     <div class="container mt-5">
         <h2>Create Invoice</h2>
-        <form id="invoiceForm" action="process_invoice.php" method="POST">
+        <form id="invoiceForm" action="includes/process_invoice.php" method="POST">
             <!-- Customer Information -->
             <div class="form-group">
                 <label for="customerName">Customer Name</label>
@@ -45,7 +45,7 @@
                         <td><input type="text" class="form-control" name="itemDescription[]" required></td>
                         <td><input type="number" class="form-control" name="itemQuantity[]" min="1" required></td>
                         <td><input type="number" class="form-control" name="itemUnitPrice[]" min="0" step="0.01" required></td>
-                        <td class="itemAmount">$0.00</td>
+                        <td class="itemAmount">Ksh. 0.00</td>
                         <td><button type="button" class="btn btn-danger btn-sm removeItem">Remove</button></td>
                     </tr>
                 </tbody>
