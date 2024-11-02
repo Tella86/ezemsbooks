@@ -54,10 +54,11 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
         <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
             <div class="list-group">
                 <a href="dashboard.php" class="list-group-item list-group-item-action">Dashboard</a>
-                <a href="invoicing.php" class="list-group-item list-group-item-action">Invoicing</a>
+                <a href="create_invoice.php" class="list-group-item list-group-item-action">Invoicing</a>
                 <a href="expenses.php" class="list-group-item list-group-item-action">Expenses</a>
                 <a href="inventory.php" class="list-group-item list-group-item-action">Inventory</a>
                 <a href="projects.php" class="list-group-item list-group-item-action">Projects</a>
+                <a href="view_invoices.php" class="list-group-item list-group-item-action">Views Invoices</a>
                 <?php if ($isAdmin): ?>
                     <a href="payroll.php" class="list-group-item list-group-item-action">Payroll</a>
                     <a href="settings.php" class="list-group-item list-group-item-action">Settings</a>
